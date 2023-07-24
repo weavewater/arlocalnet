@@ -92,8 +92,8 @@ init([]) ->
 			{false, true} ->
 				Config2 = Config#config{ init = false },
 				application:set_env(arweave, config, Config2),
-				InitialBalance = ?AR(1000000000000),
-				[B0] = ar_weave:init([{Config#config.mining_addr, InitialBalance, <<>>}],
+				Walletlist = ar_util:genesis_wallets(),
+				[B0] = ar_weave:init(Walletlist,
 						ar_retarget:switch_to_linear_diff(Config#config.diff)),
 				RootHash0 = B0#block.wallet_list,
 				RootHash0 = ar_storage:write_wallet_list(0, B0#block.account_tree),
